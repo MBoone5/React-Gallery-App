@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Nav extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    );
-  }
-}
+const Nav = () =>
+  <nav className="main-nav">
+    <ul>
+      <li><a href='#'>Cats</a></li>
+      <li><a href='#'>Dogs</a></li>
+      <li><a href='#'>Computers</a></li>
+    </ul>
+  </nav>;
 
 export default Nav;

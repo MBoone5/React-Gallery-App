@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 
 class App extends Component {
-  return ({
-    
-  });
+  render() {
+    return (
+      <Nav />
+    );
+  }
 }
 
 export default App;

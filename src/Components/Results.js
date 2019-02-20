@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import NotFound from './NotFound';
 
-class Photos extends Component {
+class Results extends Component {
   render() {
     return (
-      <ul>
-        <NotFound />
-      </ul>
+      <NotFound />
     );
   }
 }
 
-export default Photos;
+export default Results;

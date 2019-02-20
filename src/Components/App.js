@@ -1,41 +1,48 @@
+// basic modules
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 // components
 import Nav from './Nav';
 import Search from './Search';
-import PhotoContainer from './PhotoContainer';
+import Results from './Results';
 
 // data fetching
 import axios from 'axios';
 import apiKey from '../config';
 
 // to make a search request, interpolate this string with any attached parameters
-const photoSearch = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}`;
+const photoSearch = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&content_type=1&format=json&nojsoncallback=1`;
 
 class App extends Component {
-
-  state = {
-    images: []
+  // initializing state
+  state = { 
+    data: [],
+    loading: true
   };
 
+  // method to make flickr api request
   imageRequest(content = 'dogs') {
-    axios.get(`${photoSearch}&text=${content}`)
-      .then(function (response) {
+    axios.get(`${photoSearch}&tags=${content}`)
+      .then((response) => {
         // handle success
-        this.setState({images: response.data});
-        console.log(response.data);
+        this.setState({ 
+          data: response.data.photos.photo,
+          loading: false
+        });
       })
-      .catch(function (error) {
+      .catch((error) => {
         // handle error
         console.log(error);
       });
   }
 
+  // making default img request
   componentDidMount() {
     this.imageRequest();
   }
 
+  // top level structure
   render() {
     return (
       <BrowserRouter>
@@ -44,7 +51,7 @@ class App extends Component {
             <div className='container'>
               <Search />
               <Nav />
-              <PhotoContainer data={this.state.images} />
+              <Results data={this.state.data} />
             </div>
           } 
         />
@@ -53,4 +60,5 @@ class App extends Component {
   }
 }
 
+// exporting for import into index.js
 export default App;

@@ -1,5 +1,7 @@
+// dependencies
 import React from 'react';
 
+// stateless componenet to indicate no matched images
 const NotFound = () =>
   <li className="not-found">
     <h3>No Results Found</h3>

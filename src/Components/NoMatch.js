@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// stateless component to indicate no matched images
+// stateless component to indicate no matched route
 const NoMatch = ({ location }) => {
   return (
     <div>

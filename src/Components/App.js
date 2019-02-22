@@ -1,6 +1,6 @@
 // basic modules
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 // components
 import Nav from './Nav';
@@ -49,15 +49,23 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path='(/|/Tesla|/Audi|/Porsche|/Search)' exact render=
+          <Route path='(/|/Tesla|/Audi|/Porsche)' exact render=
             {() =>
               <div className='container'>
-                <Search onSearch={this.imageRequest} />
+                <Link to="/Search">Search For Custom Images</Link>
                 <Nav imageRequest={this.imageRequest} />
                 <Results data={this.state.data} loading={this.state.loading} />
               </div>
             }
           />
+          <Route path='/Search' exact render={
+            () =>
+              <div className='container'>
+                <Search onSearch={this.imageRequest} />
+                <Nav imageRequest={this.imageRequest} />
+                <Results data={this.state.data} loading={this.state.loading} />
+              </div>
+          } />
           <Route component={NoMatch} />
         </Switch>
       </BrowserRouter>

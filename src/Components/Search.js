@@ -1,23 +1,33 @@
+// dependencies
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+// stateful component for making search requests
 class Search extends Component {
+  // initializing state
   state = {
     query: '',
     toSearch: false
   }
 
+  // updating the query string
   handleChange = e => {
     this.setState({query: e.target.value});
   }
 
+  // handling the submit of the form
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault(); // stop default
+
+    // calling the request function
     this.props.onSearch(this.state.query);
-    this.form.reset();
-    this.setState({toSearch: true});
+
+    this.form.reset(); // clearing the form
+    this.setState({toSearch: true}); // updating the state for redirect to /Search
   }
   
+  // rendering the content
   render() {
     // redirect
     if (this.state.toSearch === true) {
@@ -25,6 +35,7 @@ class Search extends Component {
       return <Redirect to="/Search" />;
     }
 
+    // search form
     return (
       <form ref={(form) => this.form = form}className="search-form" onSubmit={this.handleSubmit}>
         <input type="search" name="search" placeholder="Search for anything..."  onChange={this.handleChange} required />
@@ -38,5 +49,10 @@ class Search extends Component {
     );
   }
 }
+
+// prop validation
+Search.propTypes = {
+  onSearch: PropTypes.func
+};
 
 export default Search;

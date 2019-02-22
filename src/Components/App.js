@@ -1,18 +1,19 @@
 // basic modules
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // components
 import Nav from './Nav';
 import Search from './Search';
 import Results from './Results';
+import NoMatch from './NoMatch';
 
 // data fetching
 import axios from 'axios';
 import apiKey from '../config';
 
 // to make a search request, interpolate this string with any attached parameters
-const photoSearch = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&content_type=1&format=json&nojsoncallback=1`;
+const photoSearch = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&content_type=1&format=json&nojsoncallback=1&sort=relevance&per_page=24`;
 
 class App extends Component {
   // initializing state
@@ -22,17 +23,18 @@ class App extends Component {
   };
 
   // method to make flickr api request
-  imageRequest(content = 'dogs') {
-    axios.get(`${photoSearch}&tags=${content}`)
-      .then((response) => {
+  imageRequest = (query = 'Tesla') => {
+    axios.get(`${photoSearch}&tags=${query}`)
+      .then(response => {
         // handle success
-        this.setState({ 
+        this.setState({
           data: response.data.photos.photo,
           loading: false
         });
       })
-      .catch((error) => {
+      .catch(error => {
         // handle error
+        // eslint-disable-next-line no-console
         console.log(error);
       });
   }
@@ -46,15 +48,18 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Route path='/' render=
-          {() => 
-            <div className='container'>
-              <Search />
-              <Nav />
-              <Results data={this.state.data} />
-            </div>
-          } 
-        />
+        <Switch>
+          <Route path='(/|/Tesla|/Audi|/Porsche|/Search)' exact render=
+            {() =>
+              <div className='container'>
+                <Search onSearch={this.imageRequest} />
+                <Nav imageRequest={this.imageRequest} />
+                <Results data={this.state.data} loading={this.state.loading} />
+              </div>
+            }
+          />
+          <Route component={NoMatch} />
+        </Switch>
       </BrowserRouter>
     );
   }

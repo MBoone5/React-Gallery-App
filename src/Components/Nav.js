@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import NavBtn from './NavBtn';
 
-class Nav extends Component {
-  render() {
-    return (
-      <nav className="main-nav">
-        <ul>
-          <li><Link to='/'>Cats</Link></li>
-          <li><Link to='/'>Dogs</Link></li>
-          <li><Link to='/'>Computers</Link></li>
-        </ul>
-      </nav>
-    );
-  }
-}
+const Nav = props => {
+  const labels = ['Tesla', 'Audi', 'Porsche'];
+  let counter = 0;
+  const btnArray = labels.map( label =>
+    <NavBtn imageRequest={props.imageRequest} label={label} key={counter+=1} />
+  );
+
+  return (
+    <nav className="main-nav">
+      <ul>
+        {btnArray}
+      </ul>
+    </nav>
+  );
+};
 
 export default Nav;

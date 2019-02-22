@@ -1,9 +1,13 @@
+// dependecies
 import React from 'react';
+
+// components
 import NotFound from './NotFound';
 import Image from './Image';
+import Loader from './Loader';
 
-const Results = props => {
-  const data = props.data;
+
+const Results = ({data, loading}) => {
   let counter = 0;
   const imageArray = data.map(image => 
     <Image 
@@ -12,18 +16,28 @@ const Results = props => {
     />
   );
 
-  // console.log(imageArray);
+  const handleDisplay = () => {
+    if (imageArray.length > 0) {
+      return (
+        <>
+          {imageArray}
+        </>
+      );
+    } else if (loading === true) {
+      return (
+        <Loader />
+      );
+    }else {
+      return (
+        <NotFound />
+      );
+    }
+  };
   return (
     <div className="photo-container">
       <h2>Results</h2>
       <ul>
-        {
-          (imageArray.length > 0)
-            ? <>
-                {imageArray}
-              </>
-            : <NotFound />
-        }
+        {handleDisplay()}
       </ul>
     </div>
   );
